@@ -9,7 +9,7 @@
   setInterval(updateClock, 1000);
 })();
 
-// THEME SWITCH + GIF + 3D FLIP
+// THEME + GIF + 3D FLIP
 (function() {
   const card = document.getElementById('card');
   const themeBtn = document.getElementById('themeBtn');
@@ -179,7 +179,7 @@
   }
 })();
 
-// CUSTOM CURSOR – INSTANT
+// CUSTOM CURSOR – INSTANT (no throttling)
 (function() {
   const cursor = document.getElementById('customCursor');
   let active = false;
@@ -203,7 +203,7 @@
   document.body.addEventListener('mouseenter', () => { if (active) cursor.style.opacity = '1'; });
 })();
 
-// SPARKLE TRAIL – MINIMAL
+// SPARKLE TRAIL – VERY LIGHT (max 3 particles, 100ms delay)
 (function() {
   const canvas = document.getElementById('sparkle-canvas');
   const ctx = canvas.getContext('2d');
@@ -218,9 +218,9 @@
   resize();
 
   let particles = [];
-  const MAX = 5;
-  const darkColor = 'rgba(255,255,255,0.5)';
-  const lightColor = 'rgba(217,79,143,0.5)';
+  const MAX = 3;
+  const darkColor = 'rgba(255,255,255,0.4)';
+  const lightColor = 'rgba(217,79,143,0.4)';
   function getColor() {
     return document.body.classList.contains('light') ? lightColor : darkColor;
   }
@@ -231,9 +231,9 @@
       size: Math.random() * 2 + 1.5,
       color: getColor(),
       life: 1,
-      decay: 0.06,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3
+      decay: 0.07,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2
     });
   }
   function update() {
@@ -263,7 +263,7 @@
   animate();
 
   let last = 0;
-  const DELAY = 80;
+  const DELAY = 100;
   function onMove(x, y, now) {
     if (now - last > DELAY) {
       addSparkle(x, y);
@@ -285,84 +285,27 @@
   window.addEventListener('touchstart', (e) => { if (e.touches.length) handle(e.touches[0].clientX, e.touches[0].clientY, performance.now()); });
 })();
 
-// BORDER ROTATES WITH CURSOR
+// BORDER ROTATION – DIRECT UPDATE (no RAF, no throttling)
 (function() {
   const card = document.getElementById('card');
   if (!card) return;
-  let rafId = null;
-  let lastAngle = 0;
   const handleMouseMove = (e) => {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      const rect = card.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const angleRad = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-      let angleDeg = angleRad * 180 / Math.PI;
-      angleDeg = (angleDeg + 360) % 360;
-      if (Math.abs(angleDeg - lastAngle) > 0.5) {
-        card.style.setProperty('--border-angle', `${angleDeg}deg`);
-        lastAngle = angleDeg;
-      }
-      const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-      const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mouse-x', `${xPercent}%`);
-      card.style.setProperty('--mouse-y', `${yPercent}%`);
-      rafId = null;
-    });
+    const rect = card.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const angleRad = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+    let angleDeg = angleRad * 180 / Math.PI;
+    angleDeg = (angleDeg + 360) % 360;
+    card.style.setProperty('--border-angle', `${angleDeg}deg`);
+    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mouse-x', `${xPercent}%`);
+    card.style.setProperty('--mouse-y', `${yPercent}%`);
   };
   card.addEventListener('mousemove', handleMouseMove);
   card.addEventListener('mouseleave', () => {
-    if (rafId) cancelAnimationFrame(rafId);
     card.style.removeProperty('--border-angle');
     card.style.removeProperty('--mouse-x');
     card.style.removeProperty('--mouse-y');
   });
-})();    holdTimeout = setTimeout(() => {
-      if (!card.classList.contains('flipping')) {
-        card.classList.add('card-hold');
-        isHolding = true;
-      }
-    }, 400);
-  }
-  function cancelHold() {
-    if (holdTimeout) clearTimeout(holdTimeout);
-    if (isHolding) {
-      card.classList.remove('card-hold');
-      isHolding = false;
-    }
-  }
-  card.addEventListener('mousedown', startHold);
-  window.addEventListener('mouseup', cancelHold);
-  card.addEventListener('touchstart', startHold);
-  window.addEventListener('touchend', cancelHold);
-  window.addEventListener('touchcancel', cancelHold);
-  card.addEventListener('contextmenu', (e) => e.preventDefault());
-  
-  // Ripple effect (exactly at tap point)
-  function createRipple(event, isTouch = false) {
-    if (card.classList.contains('flipping')) return;
-    const rect = card.getBoundingClientRect();
-    let clientX, clientY;
-    if (isTouch && event.touches) {
-      clientX = event.touches[0].clientX;
-      clientY = event.touches[0].clientY;
-    } else if (event.clientX !== undefined) {
-      clientX = event.clientX;
-      clientY = event.clientY;
-    } else return;
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    const size = 120;
-    ripple.style.width = `${size}px`;
-    ripple.style.height = `${size}px`;
-    ripple.style.left = `${x - size/2}px`;
-    ripple.style.top = `${y - size/2}px`;
-    card.appendChild(ripple);
-    ripple.addEventListener('animationend', () => ripple.remove());
-  }
-  card.addEventListener('mousedown', (e) => createRipple(e, false));
-  card.addEventListener('touchstart', (e) => createRipple(e, true));
 })();
