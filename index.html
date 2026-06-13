@@ -3,14 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Yokai · 18 · Node.js 98% · Python 87%</title>
+  <title>Yokai · ♰</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="gif-bg" id="gifBg"></div>
+
+<canvas id="sparkle-canvas"></canvas>
+<div class="custom-cursor" id="customCursor"></div>
+
 <div class="card" id="card">
+  <div id="cardGifBg" class="card-gif-bg" style="background-image: url('https://i.ibb.co/M5cvYN4T/3c8ba3105c343171301b8fa589809c3e.gif');"></div>
   <div class="clearfix">
     <button class="theme-btn" id="themeBtn">🌀 Switch</button>
   </div>
@@ -18,47 +22,34 @@
     <img src="https://i.ibb.co/C3cjJHrJ/4de0cd558789e6350f4bf01cae520c3d.png" alt="Yokai" class="profile-img" loading="eager">
   </div>
   <h1>Y𝖔₭𝖆𝖎  .   ♰</h1>
-  <div class="badge" id="ageBadge">-- YEARS OLD · CODER</div>
-  
-  <p id="bioFirstLine">Hi, I'm a <strong id="dynamicAge">--</strong>‑year‑old coder, anime enthusiast, and Discord bot developer. I love <strong>Bleach</strong> and <strong>Tokyo Ghoul</strong> ♰<br>
-  I specialize in modern backend systems, automation, and interactive bots.</p>
-  
-  <button class="skills-toggle-btn" id="skillsToggleBtn">✨ My Skills ✨</button>
-  
+  <div class="badge">♰</div>
+  <p>Hi, I'm an 18‑year‑old coder, anime lover (Bleach/Tokyo Ghoul), and Discord bot developer. I specialize in Node.js, Python, and modern web.</p>
+  <button class="skills-toggle-btn" id="skillsToggleBtn">⚡ My Arsenal</button>
   <div class="skills-box" id="skillsBox">
     <div class="skills-inner">
-      <div class="skill-item-box"><div class="skill-icon"><i class="fab fa-node-js"></i></div><div class="skill-info"><div class="skill-name">Node.js</div><div class="skill-percent">98%</div><div class="skill-bar-bg-box"><div class="skill-bar-fill-box" data-width="98"></div></div></div></div>
-      <div class="skill-item-box"><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-info"><div class="skill-name">Python</div><div class="skill-percent">87%</div><div class="skill-bar-bg-box"><div class="skill-bar-fill-box" data-width="87"></div></div></div></div>
-      <div class="skill-item-box"><div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-info"><div class="skill-name">JavaScript</div><div class="skill-percent">90%</div><div class="skill-bar-bg-box"><div class="skill-bar-fill-box" data-width="90"></div></div></div></div>
-      <div class="skill-item-box"><div class="skill-icon"><i class="fab fa-css3-alt"></i></div><div class="skill-info"><div class="skill-name">CSS</div><div class="skill-percent">85%</div><div class="skill-bar-bg-box"><div class="skill-bar-fill-box" data-width="85"></div></div></div></div>
-      <div class="skill-item-box"><div class="skill-icon"><i class="fab fa-html5"></i></div><div class="skill-info"><div class="skill-name">HTML</div><div class="skill-percent">92%</div><div class="skill-bar-bg-box"><div class="skill-bar-fill-box" data-width="92"></div></div></div></div>
+      <div class="skill-item"><div class="skill-icon"><i class="fab fa-node-js"></i></div><div class="skill-info"><div class="skill-name">Node.js</div><div class="skill-percent">98%</div><div class="skill-bar-bg"><div class="skill-bar-fill" data-width="98"></div></div></div></div>
+      <div class="skill-item"><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-info"><div class="skill-name">Python</div><div class="skill-percent">87%</div><div class="skill-bar-bg"><div class="skill-bar-fill" data-width="87"></div></div></div></div>
+      <div class="skill-item"><div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-info"><div class="skill-name">JavaScript</div><div class="skill-percent">90%</div><div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90"></div></div></div></div>
+      <div class="skill-item"><div class="skill-icon"><i class="fab fa-css3-alt"></i></div><div class="skill-info"><div class="skill-name">CSS</div><div class="skill-percent">85%</div><div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div></div></div>
+      <div class="skill-item"><div class="skill-icon"><i class="fab fa-html5"></i></div><div class="skill-info"><div class="skill-name">HTML</div><div class="skill-percent">92%</div><div class="skill-bar-bg"><div class="skill-bar-fill" data-width="92"></div></div></div></div>
     </div>
   </div>
-  
-  <div class="highlight">
-    <i class="fas fa-skull"></i> ♰ BLEACH · TOKYO GHOUL &nbsp;|&nbsp; 
-    <i class="fab fa-node-js"></i> NODE.JS + <i class="fab fa-python"></i> PYTHON &nbsp;|&nbsp;
-    <i class="fas fa-robot"></i> DISCORD BOTS
+  <div class="glass-icons-container">
+    <div class="icon-btns" id="glassIconsContainer"></div>
   </div>
-  
-  <p>I'm open to collaborations and freelance work. Reach out at 
+  <p>Open for collabs & freelance. Reach out: 
     <span style="color: var(--pink);">itachiyaar@gmail.com</span>
     <button class="copy-btn" id="copyEmailBtn"><i class="fas fa-copy"></i></button>
   </p>
-  
-  <div class="quote">
-    <i class="fas fa-comment-dots"></i> If you're here, chances are we'd get along — I get nerd-sniped easily. An email about a cool anime moment or a new bot idea would make my day.
-  </div>
-  
   <div class="links">
-    <a href="https://www.instagram.com/d.1xh" target="_blank"><i class="fab fa-instagram"></i> instagram</a>
-    <a href="https://github.com/z0yf" target="_blank"><i class="fab fa-github"></i> github</a>
+    <a href="https://www.instagram.com/d.1xh" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+    <a href="https://github.com/z0yf" target="_blank"><i class="fab fa-github"></i> GitHub</a>
   </div>
-  
   <div class="footer">
     <i class="fas fa-location-dot"></i> India · <span id="liveClock">--:--:--</span> IST
   </div>
 </div>
+
 <script src="script.js"></script>
 </body>
-</html>
+                                                                                                                                                </html>
